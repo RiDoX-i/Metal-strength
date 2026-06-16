@@ -38,6 +38,12 @@ class AppColors {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         );
+      case Equipment.kettlebell:
+        return const LinearGradient(
+          colors: [Color(0xFF21C0B5), Color(0xFF128F87)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        );
       case Equipment.machine:
         return const LinearGradient(
           colors: [Color(0xFF4FB477), Color(0xFF2F8C57)],

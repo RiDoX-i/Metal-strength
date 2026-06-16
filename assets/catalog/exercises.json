@@ -1,354 +1,339 @@
 {
   "_meta": {
-    "version": 1,
-    "note": "Ratios are lift÷bodyweight anchors per tier (refrence Sections 4 & 6). Male anchors are authoritative; female anchors are derived via femaleFactor unless given explicitly. Bodyweight rep anchors live in exercise_repository.dart.",
+    "version": 2,
+    "note": "Ratios are lift÷bodyweight anchors per tier (refrence Sections 4 & 6). Male anchors are authoritative; female anchors are derived via femaleFactor unless given explicitly. Bodyweight rep anchors live in exercise_repository.dart. Most entries have no bespoke image yet and fall back to the equipment icon.",
     "attribution": "Strength standards are ratio estimates. Powerlift percentiles can be recalibrated from OpenPowerlifting.org (public domain)."
   },
   "exercises": [
-    {
-      "id": "bench-press", "name": "Bench Press", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": true, "isPowerlift": true,
-      "ageAdjust": true, "image": "assets/images/bench_press.svg",
-      "ratios": {
-        "male":   { "beginner": 0.50, "novice": 0.75, "intermediate": 1.25, "advanced": 1.75, "elite": 2.00 },
-        "female": { "beginner": 0.25, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.50 }
-      }
-    },
-    {
-      "id": "squat", "name": "Squat", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": true, "isPowerlift": true,
-      "ageAdjust": true, "image": "assets/images/squat.svg",
-      "ratios": {
-        "male":   { "beginner": 0.75, "novice": 1.25, "intermediate": 1.50, "advanced": 2.25, "elite": 2.75 },
-        "female": { "beginner": 0.50, "novice": 0.75, "intermediate": 1.25, "advanced": 1.50, "elite": 2.00 }
-      }
-    },
-    {
-      "id": "deadlift", "name": "Deadlift", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": true, "isPowerlift": true,
-      "ageAdjust": true, "image": "assets/images/deadlift.svg",
-      "ratios": {
-        "male":   { "beginner": 1.00, "novice": 1.50, "intermediate": 2.00, "advanced": 2.50, "elite": 3.00 },
-        "female": { "beginner": 0.50, "novice": 1.00, "intermediate": 1.25, "advanced": 1.75, "elite": 2.25 }
-      }
-    },
-    {
-      "id": "overhead-press", "name": "Overhead Press", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "image": "assets/images/overhead_press.svg",
-      "ratios": {
-        "male":   { "beginner": 0.35, "novice": 0.55, "intermediate": 0.80, "advanced": 1.10, "elite": 1.40 },
-        "female": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.50, "advanced": 0.75, "elite": 1.00 }
-      }
-    },
-    {
-      "id": "barbell-row", "name": "Bent Over Row", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "image": "assets/images/barbell_row.svg",
-      "ratios": {
-        "male":   { "beginner": 0.50, "novice": 0.75, "intermediate": 1.00, "advanced": 1.50, "elite": 1.75 },
-        "female": { "beginner": 0.25, "novice": 0.40, "intermediate": 0.65, "advanced": 0.90, "elite": 1.20 }
-      }
-    },
-    {
-      "id": "barbell-curl", "name": "Barbell Curl", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "image": "assets/images/barbell_curl.svg", "estimateNote": "Estimated from press strength",
-      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.50, "advanced": 0.70, "elite": 0.95 } }
-    },
-    {
-      "id": "incline-bench-press", "name": "Incline Bench Press", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "≈ 0.8 × flat bench",
-      "ratios": { "male": { "beginner": 0.40, "novice": 0.60, "intermediate": 1.00, "advanced": 1.40, "elite": 1.60 } }
-    },
-    {
-      "id": "front-squat", "name": "Front Squat", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78,
-      "estimateNote": "≈ 0.85 × back squat",
-      "ratios": { "male": { "beginner": 0.65, "novice": 1.05, "intermediate": 1.30, "advanced": 1.90, "elite": 2.35 } }
-    },
-    {
-      "id": "hex-bar-deadlift", "name": "Hex Bar Deadlift", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78,
-      "estimateNote": "≈ 1.05 × deadlift",
-      "ratios": { "male": { "beginner": 1.05, "novice": 1.60, "intermediate": 2.10, "advanced": 2.65, "elite": 3.15 } }
-    },
-    {
-      "id": "hip-thrust", "name": "Hip Thrust", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85,
-      "ratios": { "male": { "beginner": 1.00, "novice": 1.75, "intermediate": 2.50, "advanced": 3.25, "elite": 4.00 } }
-    },
-    {
-      "id": "romanian-deadlift", "name": "Romanian Deadlift", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78,
-      "estimateNote": "≈ 0.85 × deadlift",
-      "ratios": { "male": { "beginner": 0.85, "novice": 1.30, "intermediate": 1.70, "advanced": 2.15, "elite": 2.55 } }
-    },
-    {
-      "id": "power-clean", "name": "Power Clean", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Olympic lift estimate",
-      "ratios": { "male": { "beginner": 0.50, "novice": 0.75, "intermediate": 1.10, "advanced": 1.40, "elite": 1.75 } }
-    },
-    {
-      "id": "military-press", "name": "Military Press", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Strict overhead press",
-      "ratios": { "male": { "beginner": 0.35, "novice": 0.55, "intermediate": 0.80, "advanced": 1.05, "elite": 1.35 } }
-    },
-    {
-      "id": "sumo-deadlift", "name": "Sumo Deadlift", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78,
-      "estimateNote": "≈ conventional deadlift",
-      "ratios": { "male": { "beginner": 1.00, "novice": 1.50, "intermediate": 2.00, "advanced": 2.50, "elite": 3.00 } }
-    },
-    {
-      "id": "clean-and-jerk", "name": "Clean and Jerk", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Olympic lift estimate",
-      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.00, "advanced": 1.30, "elite": 1.60 } }
-    },
-    {
-      "id": "ez-bar-curl", "name": "EZ Bar Curl", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Estimated from press strength",
-      "ratios": { "male": { "beginner": 0.25, "novice": 0.40, "intermediate": 0.55, "advanced": 0.75, "elite": 1.00 } }
-    },
-    {
-      "id": "close-grip-bench", "name": "Close Grip Bench", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "≈ 0.9 × flat bench",
-      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.15, "advanced": 1.60, "elite": 1.85 } }
-    },
-    {
-      "id": "snatch", "name": "Snatch", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Olympic lift estimate",
-      "ratios": { "male": { "beginner": 0.35, "novice": 0.55, "intermediate": 0.75, "advanced": 1.00, "elite": 1.25 } }
-    },
-    {
-      "id": "preacher-curl", "name": "Preacher Curl", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Estimated from press strength",
-      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.45, "advanced": 0.60, "elite": 0.85 } }
-    },
-    {
-      "id": "barbell-shrug", "name": "Barbell Shrug", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "ratios": { "male": { "beginner": 0.75, "novice": 1.25, "intermediate": 1.75, "advanced": 2.50, "elite": 3.25 } }
-    },
-    {
-      "id": "t-bar-row", "name": "T-Bar Row", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Row variation estimate",
-      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.55, "elite": 1.85 } }
-    },
-    {
-      "id": "push-press", "name": "Push Press", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "≈ 1.2 × strict press",
-      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.00, "advanced": 1.30, "elite": 1.65 } }
-    },
-    {
-      "id": "decline-bench", "name": "Decline Bench Press", "equipment": "barbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "≈ 1.05 × flat bench",
-      "ratios": { "male": { "beginner": 0.55, "novice": 0.80, "intermediate": 1.30, "advanced": 1.85, "elite": 2.10 } }
-    },
+    { "id": "bench-press", "name": "Bench Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": true, "isPowerlift": true, "ageAdjust": true, "image": "assets/images/bench_press.svg",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.75, "intermediate": 1.25, "advanced": 1.75, "elite": 2.00 }, "female": { "beginner": 0.25, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.50 } } },
+    { "id": "squat", "name": "Squat", "equipment": "barbell", "loadType": "external_weight", "usesDataset": true, "isPowerlift": true, "ageAdjust": true, "image": "assets/images/squat.svg",
+      "ratios": { "male": { "beginner": 0.75, "novice": 1.25, "intermediate": 1.50, "advanced": 2.25, "elite": 2.75 }, "female": { "beginner": 0.50, "novice": 0.75, "intermediate": 1.25, "advanced": 1.50, "elite": 2.00 } } },
+    { "id": "deadlift", "name": "Deadlift", "equipment": "barbell", "loadType": "external_weight", "usesDataset": true, "isPowerlift": true, "ageAdjust": true, "image": "assets/images/deadlift.svg",
+      "ratios": { "male": { "beginner": 1.00, "novice": 1.50, "intermediate": 2.00, "advanced": 2.50, "elite": 3.00 }, "female": { "beginner": 0.50, "novice": 1.00, "intermediate": 1.25, "advanced": 1.75, "elite": 2.25 } } },
+    { "id": "overhead-press", "name": "Overhead Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "image": "assets/images/overhead_press.svg",
+      "ratios": { "male": { "beginner": 0.35, "novice": 0.55, "intermediate": 0.80, "advanced": 1.10, "elite": 1.40 }, "female": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.50, "advanced": 0.75, "elite": 1.00 } } },
+    { "id": "barbell-row", "name": "Bent Over Row", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "image": "assets/images/barbell_row.svg",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.75, "intermediate": 1.00, "advanced": 1.50, "elite": 1.75 }, "female": { "beginner": 0.25, "novice": 0.40, "intermediate": 0.65, "advanced": 0.90, "elite": 1.20 } } },
+    { "id": "barbell-curl", "name": "Barbell Curl", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "image": "assets/images/barbell_curl.svg", "estimateNote": "Estimated from press strength",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.50, "advanced": 0.70, "elite": 0.95 } } },
+    { "id": "incline-bench-press", "name": "Incline Bench Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "≈ 0.8 × flat bench",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.60, "intermediate": 1.00, "advanced": 1.40, "elite": 1.60 } } },
+    { "id": "decline-bench", "name": "Decline Bench Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "≈ 1.05 × flat bench",
+      "ratios": { "male": { "beginner": 0.55, "novice": 0.80, "intermediate": 1.30, "advanced": 1.85, "elite": 2.10 } } },
+    { "id": "close-grip-bench", "name": "Close Grip Bench", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "≈ 0.9 × flat bench",
+      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.15, "advanced": 1.60, "elite": 1.85 } } },
+    { "id": "floor-press", "name": "Floor Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Bench variation estimate",
+      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.10, "advanced": 1.50, "elite": 1.80 } } },
+    { "id": "pin-press", "name": "Pin Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Bench variation estimate",
+      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.15, "advanced": 1.60, "elite": 1.90 } } },
+    { "id": "front-squat", "name": "Front Squat", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78, "estimateNote": "≈ 0.85 × back squat",
+      "ratios": { "male": { "beginner": 0.65, "novice": 1.05, "intermediate": 1.30, "advanced": 1.90, "elite": 2.35 } } },
+    { "id": "box-squat", "name": "Box Squat", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Squat variation estimate",
+      "ratios": { "male": { "beginner": 0.75, "novice": 1.25, "intermediate": 1.70, "advanced": 2.20, "elite": 2.70 } } },
+    { "id": "zercher-squat", "name": "Zercher Squat", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Squat variation estimate",
+      "ratios": { "male": { "beginner": 0.60, "novice": 1.00, "intermediate": 1.40, "advanced": 1.90, "elite": 2.40 } } },
+    { "id": "overhead-squat", "name": "Overhead Squat", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Mobility-limited lift",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.65, "intermediate": 0.90, "advanced": 1.20, "elite": 1.55 } } },
+    { "id": "hex-bar-deadlift", "name": "Hex Bar Deadlift", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78, "estimateNote": "≈ 1.05 × deadlift",
+      "ratios": { "male": { "beginner": 1.05, "novice": 1.60, "intermediate": 2.10, "advanced": 2.65, "elite": 3.15 } } },
+    { "id": "sumo-deadlift", "name": "Sumo Deadlift", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78, "estimateNote": "≈ conventional deadlift",
+      "ratios": { "male": { "beginner": 1.00, "novice": 1.50, "intermediate": 2.00, "advanced": 2.50, "elite": 3.00 } } },
+    { "id": "romanian-deadlift", "name": "Romanian Deadlift", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78, "estimateNote": "≈ 0.85 × deadlift",
+      "ratios": { "male": { "beginner": 0.85, "novice": 1.30, "intermediate": 1.70, "advanced": 2.15, "elite": 2.55 } } },
+    { "id": "stiff-leg-deadlift", "name": "Stiff Leg Deadlift", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.78, "estimateNote": "Hinge accessory estimate",
+      "ratios": { "male": { "beginner": 0.80, "novice": 1.25, "intermediate": 1.65, "advanced": 2.10, "elite": 2.50 } } },
+    { "id": "rack-pull", "name": "Rack Pull", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Partial deadlift estimate",
+      "ratios": { "male": { "beginner": 1.20, "novice": 1.80, "intermediate": 2.40, "advanced": 3.00, "elite": 3.60 } } },
+    { "id": "deficit-deadlift", "name": "Deficit Deadlift", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Deadlift variation estimate",
+      "ratios": { "male": { "beginner": 0.90, "novice": 1.40, "intermediate": 1.85, "advanced": 2.35, "elite": 2.85 } } },
+    { "id": "snatch-grip-deadlift", "name": "Snatch Grip Deadlift", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Deadlift variation estimate",
+      "ratios": { "male": { "beginner": 0.85, "novice": 1.30, "intermediate": 1.75, "advanced": 2.20, "elite": 2.70 } } },
+    { "id": "good-morning", "name": "Good Morning", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Posterior chain accessory",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.70, "intermediate": 1.00, "advanced": 1.40, "elite": 1.80 } } },
+    { "id": "hip-thrust", "name": "Hip Thrust", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85,
+      "ratios": { "male": { "beginner": 1.00, "novice": 1.75, "intermediate": 2.50, "advanced": 3.25, "elite": 4.00 } } },
+    { "id": "barbell-lunge", "name": "Barbell Lunge", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Unilateral leg estimate",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.70, "intermediate": 1.00, "advanced": 1.40, "elite": 1.80 } } },
+    { "id": "barbell-split-squat", "name": "Barbell Split Squat", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Unilateral leg estimate",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.70, "intermediate": 1.00, "advanced": 1.40, "elite": 1.80 } } },
+    { "id": "barbell-step-up", "name": "Barbell Step Up", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Unilateral leg estimate",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.65, "intermediate": 0.95, "advanced": 1.30, "elite": 1.70 } } },
+    { "id": "barbell-calf-raise", "name": "Barbell Calf Raise", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Calf estimate",
+      "ratios": { "male": { "beginner": 0.75, "novice": 1.50, "intermediate": 2.50, "advanced": 3.50, "elite": 4.50 } } },
+    { "id": "military-press", "name": "Military Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Strict overhead press",
+      "ratios": { "male": { "beginner": 0.35, "novice": 0.55, "intermediate": 0.80, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "push-press", "name": "Push Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "≈ 1.2 × strict press",
+      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.00, "advanced": 1.30, "elite": 1.65 } } },
+    { "id": "behind-neck-press", "name": "Behind The Neck Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Overhead variation estimate",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.30 } } },
+    { "id": "landmine-press", "name": "Landmine Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stable pressing estimate",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "landmine-row", "name": "Landmine Row", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Row variation estimate",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.65, "intermediate": 0.95, "advanced": 1.30, "elite": 1.65 } } },
+    { "id": "pendlay-row", "name": "Pendlay Row", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Row variation estimate",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.50, "elite": 1.85 } } },
+    { "id": "yates-row", "name": "Yates Row", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Row variation estimate",
+      "ratios": { "male": { "beginner": 0.55, "novice": 0.85, "intermediate": 1.20, "advanced": 1.60, "elite": 1.95 } } },
+    { "id": "t-bar-row", "name": "T-Bar Row", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Row variation estimate",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.55, "elite": 1.85 } } },
+    { "id": "barbell-upright-row", "name": "Barbell Upright Row", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Delt/trap accessory",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "barbell-shrug", "name": "Barbell Shrug", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
+      "ratios": { "male": { "beginner": 0.75, "novice": 1.25, "intermediate": 1.75, "advanced": 2.50, "elite": 3.25 } } },
+    { "id": "high-pull", "name": "Barbell High Pull", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Explosive pull estimate",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.45, "elite": 1.80 } } },
+    { "id": "power-clean", "name": "Power Clean", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Olympic lift estimate",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.75, "intermediate": 1.10, "advanced": 1.40, "elite": 1.75 } } },
+    { "id": "clean-and-jerk", "name": "Clean and Jerk", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Olympic lift estimate",
+      "ratios": { "male": { "beginner": 0.45, "novice": 0.70, "intermediate": 1.00, "advanced": 1.30, "elite": 1.60 } } },
+    { "id": "snatch", "name": "Snatch", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Olympic lift estimate",
+      "ratios": { "male": { "beginner": 0.35, "novice": 0.55, "intermediate": 0.75, "advanced": 1.00, "elite": 1.25 } } },
+    { "id": "thruster", "name": "Barbell Thruster", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Squat-to-press estimate",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.65, "intermediate": 0.95, "advanced": 1.25, "elite": 1.60 } } },
+    { "id": "ez-bar-curl", "name": "EZ Bar Curl", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Estimated from press strength",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.40, "intermediate": 0.55, "advanced": 0.75, "elite": 1.00 } } },
+    { "id": "preacher-curl", "name": "Preacher Curl", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Bicep isolation estimate",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.45, "advanced": 0.60, "elite": 0.85 } } },
+    { "id": "spider-curl", "name": "Spider Curl", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Bicep isolation estimate",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.45, "advanced": 0.62, "elite": 0.85 } } },
+    { "id": "drag-curl", "name": "Drag Curl", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Bicep isolation estimate",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.50, "advanced": 0.70, "elite": 0.95 } } },
+    { "id": "reverse-curl", "name": "Reverse Curl", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Forearm/bicep estimate",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.45, "advanced": 0.62, "elite": 0.85 } } },
+    { "id": "skull-crusher", "name": "Skull Crusher", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Tricep isolation estimate",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.40, "intermediate": 0.60, "advanced": 0.85, "elite": 1.10 } } },
+    { "id": "jm-press", "name": "JM Press", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Tricep press estimate",
+      "ratios": { "male": { "beginner": 0.35, "novice": 0.55, "intermediate": 0.85, "advanced": 1.15, "elite": 1.45 } } },
+    { "id": "barbell-wrist-curl", "name": "Barbell Wrist Curl", "equipment": "barbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Forearm isolation estimate",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.80, "elite": 1.10 } } },
 
-    {
-      "id": "db-bench-press", "name": "Dumbbell Bench Press", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.90 } }
-    },
-    {
-      "id": "db-curl", "name": "Dumbbell Curl", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.10, "novice": 0.18, "intermediate": 0.28, "advanced": 0.40, "elite": 0.50 } }
-    },
-    {
-      "id": "incline-db-press", "name": "Incline Dumbbell Press", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.50, "advanced": 0.68, "elite": 0.82 } }
-    },
-    {
-      "id": "db-shoulder-press", "name": "Dumbbell Shoulder Press", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.15, "novice": 0.25, "intermediate": 0.40, "advanced": 0.55, "elite": 0.70 } }
-    },
-    {
-      "id": "db-lateral-raise", "name": "Dumbbell Lateral Raise", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.06, "novice": 0.10, "intermediate": 0.16, "advanced": 0.24, "elite": 0.32 } }
-    },
-    {
-      "id": "db-row", "name": "Dumbbell Row", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.95 } }
-    },
-    {
-      "id": "hammer-curl", "name": "Hammer Curl", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.12, "novice": 0.20, "intermediate": 0.30, "advanced": 0.42, "elite": 0.55 } }
-    },
-    {
-      "id": "db-bulgarian-split-squat", "name": "Bulgarian Split Squat", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.95 } }
-    },
-    {
-      "id": "goblet-squat", "name": "Goblet Squat", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85,
-      "estimateNote": "Single dumbbell weight",
-      "ratios": { "male": { "beginner": 0.25, "novice": 0.45, "intermediate": 0.70, "advanced": 0.95, "elite": 1.20 } }
-    },
-    {
-      "id": "db-fly", "name": "Dumbbell Fly", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.10, "novice": 0.18, "intermediate": 0.28, "advanced": 0.40, "elite": 0.50 } }
-    },
-    {
-      "id": "db-shrug", "name": "Dumbbell Shrug", "equipment": "dumbbell",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Per-dumbbell weight",
-      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.30 } }
-    },
+    { "id": "db-bench-press", "name": "Dumbbell Bench Press", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.90 } } },
+    { "id": "incline-db-press", "name": "Incline Dumbbell Press", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.50, "advanced": 0.68, "elite": 0.82 } } },
+    { "id": "decline-db-press", "name": "Decline Dumbbell Press", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.90 } } },
+    { "id": "db-shoulder-press", "name": "Dumbbell Shoulder Press", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.15, "novice": 0.25, "intermediate": 0.40, "advanced": 0.55, "elite": 0.70 } } },
+    { "id": "arnold-press", "name": "Arnold Press", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.15, "novice": 0.25, "intermediate": 0.40, "advanced": 0.55, "elite": 0.70 } } },
+    { "id": "db-lateral-raise", "name": "Dumbbell Lateral Raise", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.06, "novice": 0.10, "intermediate": 0.16, "advanced": 0.24, "elite": 0.32 } } },
+    { "id": "db-front-raise", "name": "Dumbbell Front Raise", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.06, "novice": 0.10, "intermediate": 0.16, "advanced": 0.24, "elite": 0.32 } } },
+    { "id": "db-rear-delt-fly", "name": "Dumbbell Rear Delt Fly", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.05, "novice": 0.09, "intermediate": 0.14, "advanced": 0.20, "elite": 0.28 } } },
+    { "id": "db-row", "name": "Dumbbell Row", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.95 } } },
+    { "id": "db-pullover", "name": "Dumbbell Pullover", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Single dumbbell weight",
+      "ratios": { "male": { "beginner": 0.12, "novice": 0.20, "intermediate": 0.30, "advanced": 0.42, "elite": 0.55 } } },
+    { "id": "db-fly", "name": "Dumbbell Fly", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.18, "intermediate": 0.28, "advanced": 0.40, "elite": 0.50 } } },
+    { "id": "db-curl", "name": "Dumbbell Curl", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.18, "intermediate": 0.28, "advanced": 0.40, "elite": 0.50 } } },
+    { "id": "hammer-curl", "name": "Hammer Curl", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.12, "novice": 0.20, "intermediate": 0.30, "advanced": 0.42, "elite": 0.55 } } },
+    { "id": "db-incline-curl", "name": "Incline Dumbbell Curl", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.08, "novice": 0.14, "intermediate": 0.22, "advanced": 0.32, "elite": 0.42 } } },
+    { "id": "db-concentration-curl", "name": "Concentration Curl", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.16, "intermediate": 0.25, "advanced": 0.35, "elite": 0.45 } } },
+    { "id": "zottman-curl", "name": "Zottman Curl", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.16, "intermediate": 0.25, "advanced": 0.35, "elite": 0.45 } } },
+    { "id": "db-preacher-curl", "name": "Dumbbell Preacher Curl", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.08, "novice": 0.14, "intermediate": 0.22, "advanced": 0.32, "elite": 0.42 } } },
+    { "id": "db-overhead-extension", "name": "Dumbbell Overhead Extension", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Single/both dumbbell weight",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.18, "intermediate": 0.28, "advanced": 0.40, "elite": 0.52 } } },
+    { "id": "db-skull-crusher", "name": "Dumbbell Skull Crusher", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.16, "intermediate": 0.25, "advanced": 0.35, "elite": 0.46 } } },
+    { "id": "db-tricep-kickback", "name": "Dumbbell Tricep Kickback", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.06, "novice": 0.10, "intermediate": 0.16, "advanced": 0.24, "elite": 0.32 } } },
+    { "id": "goblet-squat", "name": "Goblet Squat", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Single dumbbell weight",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.45, "intermediate": 0.70, "advanced": 0.95, "elite": 1.20 } } },
+    { "id": "db-bulgarian-split-squat", "name": "Bulgarian Split Squat", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.95 } } },
+    { "id": "db-lunge", "name": "Dumbbell Lunge", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.95 } } },
+    { "id": "db-step-up", "name": "Dumbbell Step Up", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.32, "intermediate": 0.50, "advanced": 0.70, "elite": 0.90 } } },
+    { "id": "db-romanian-deadlift", "name": "Dumbbell Romanian Deadlift", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.82, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.42, "intermediate": 0.65, "advanced": 0.90, "elite": 1.15 } } },
+    { "id": "db-deadlift", "name": "Dumbbell Deadlift", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.82, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.30 } } },
+    { "id": "db-calf-raise", "name": "Dumbbell Calf Raise", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.55, "intermediate": 0.85, "advanced": 1.20, "elite": 1.60 } } },
+    { "id": "db-shrug", "name": "Dumbbell Shrug", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.30 } } },
+    { "id": "db-upright-row", "name": "Dumbbell Upright Row", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.12, "novice": 0.20, "intermediate": 0.32, "advanced": 0.45, "elite": 0.60 } } },
+    { "id": "db-thruster", "name": "Dumbbell Thruster", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.45, "advanced": 0.62, "elite": 0.80 } } },
+    { "id": "db-renegade-row", "name": "Renegade Row", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.15, "novice": 0.25, "intermediate": 0.40, "advanced": 0.55, "elite": 0.70 } } },
+    { "id": "db-side-bend", "name": "Dumbbell Side Bend", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "db-wrist-curl", "name": "Dumbbell Wrist Curl", "equipment": "dumbbell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-dumbbell weight",
+      "ratios": { "male": { "beginner": 0.12, "novice": 0.20, "intermediate": 0.32, "advanced": 0.45, "elite": 0.60 } } },
 
-    {
-      "id": "leg-press", "name": "Leg Press (Sled)", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80,
-      "estimateNote": "Sled machines vary; total plate load",
-      "ratios": { "male": { "beginner": 1.50, "novice": 2.50, "intermediate": 3.50, "advanced": 4.75, "elite": 6.00 } }
-    },
-    {
-      "id": "leg-press-horizontal", "name": "Leg Press (Horizontal)", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80,
-      "estimateNote": "Machine load varies",
-      "ratios": { "male": { "beginner": 1.00, "novice": 1.75, "intermediate": 2.50, "advanced": 3.50, "elite": 4.50 } }
-    },
-    {
-      "id": "leg-extension", "name": "Leg Extension", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.50, "novice": 0.85, "intermediate": 1.25, "advanced": 1.75, "elite": 2.25 } }
-    },
-    {
-      "id": "chest-press", "name": "Machine Chest Press", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.20, "advanced": 1.60, "elite": 2.00 } }
-    },
-    {
-      "id": "hack-squat", "name": "Hack Squat", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80,
-      "estimateNote": "Plate load excludes carriage",
-      "ratios": { "male": { "beginner": 0.75, "novice": 1.50, "intermediate": 2.25, "advanced": 3.00, "elite": 3.75 } }
-    },
-    {
-      "id": "machine-shoulder-press", "name": "Machine Shoulder Press", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } }
-    },
-    {
-      "id": "machine-chest-fly", "name": "Machine Chest Fly", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } }
-    },
-    {
-      "id": "seated-leg-curl", "name": "Seated Leg Curl", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.40, "novice": 0.65, "intermediate": 0.95, "advanced": 1.30, "elite": 1.65 } }
-    },
-    {
-      "id": "lying-leg-curl", "name": "Lying Leg Curl", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.35, "novice": 0.60, "intermediate": 0.90, "advanced": 1.20, "elite": 1.55 } }
-    },
-    {
-      "id": "calf-raise", "name": "Calf Raise", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85,
-      "estimateNote": "Stack/plate load",
-      "ratios": { "male": { "beginner": 0.75, "novice": 1.50, "intermediate": 2.50, "advanced": 3.50, "elite": 4.50 } }
-    },
-    {
-      "id": "hip-adduction", "name": "Hip Adduction", "equipment": "machine",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.90,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.40, "novice": 0.70, "intermediate": 1.05, "advanced": 1.45, "elite": 1.85 } }
-    },
+    { "id": "kettlebell-swing", "name": "Kettlebell Swing", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Single kettlebell weight",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.40, "intermediate": 0.60, "advanced": 0.85, "elite": 1.10 } } },
+    { "id": "kettlebell-goblet-squat", "name": "Kettlebell Goblet Squat", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.82, "estimateNote": "Single kettlebell weight",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.45, "intermediate": 0.70, "advanced": 0.95, "elite": 1.20 } } },
+    { "id": "kettlebell-front-squat", "name": "Kettlebell Front Squat", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.82, "estimateNote": "Per-kettlebell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.38, "intermediate": 0.58, "advanced": 0.80, "elite": 1.05 } } },
+    { "id": "kettlebell-deadlift", "name": "Kettlebell Deadlift", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.82, "estimateNote": "Single kettlebell weight",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.30 } } },
+    { "id": "kettlebell-clean", "name": "Kettlebell Clean", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-kettlebell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.50, "advanced": 0.70, "elite": 0.90 } } },
+    { "id": "kettlebell-snatch", "name": "Kettlebell Snatch", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Single kettlebell weight",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.45, "advanced": 0.62, "elite": 0.82 } } },
+    { "id": "kettlebell-press", "name": "Kettlebell Press", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-kettlebell weight",
+      "ratios": { "male": { "beginner": 0.12, "novice": 0.20, "intermediate": 0.32, "advanced": 0.45, "elite": 0.60 } } },
+    { "id": "kettlebell-row", "name": "Kettlebell Row", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-kettlebell weight",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.95 } } },
+    { "id": "kettlebell-lunge", "name": "Kettlebell Lunge", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Per-kettlebell weight",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.32, "intermediate": 0.50, "advanced": 0.70, "elite": 0.90 } } },
+    { "id": "kettlebell-thruster", "name": "Kettlebell Thruster", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-kettlebell weight",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.45, "advanced": 0.62, "elite": 0.80 } } },
+    { "id": "turkish-get-up", "name": "Turkish Get-Up", "equipment": "kettlebell", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Single kettlebell weight",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.18, "intermediate": 0.28, "advanced": 0.40, "elite": 0.55 } } },
 
-    {
-      "id": "lat-pulldown", "name": "Lat Pulldown", "equipment": "cable",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "image": "assets/images/lat_pulldown.svg", "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.50, "elite": 1.90 } }
-    },
-    {
-      "id": "tricep-pushdown", "name": "Tricep Pushdown", "equipment": "cable",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } }
-    },
-    {
-      "id": "seated-cable-row", "name": "Seated Cable Row", "equipment": "cable",
-      "loadType": "external_weight", "usesDataset": false, "ageAdjust": true,
-      "estimateNote": "Stack load",
-      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.15, "advanced": 1.55, "elite": 1.95 } }
-    },
+    { "id": "leg-press", "name": "Leg Press (Sled)", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Sled machines vary; total plate load",
+      "ratios": { "male": { "beginner": 1.50, "novice": 2.50, "intermediate": 3.50, "advanced": 4.75, "elite": 6.00 } } },
+    { "id": "leg-press-horizontal", "name": "Leg Press (Horizontal)", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Machine load varies",
+      "ratios": { "male": { "beginner": 1.00, "novice": 1.75, "intermediate": 2.50, "advanced": 3.50, "elite": 4.50 } } },
+    { "id": "vertical-leg-press", "name": "Vertical Leg Press", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Machine load varies",
+      "ratios": { "male": { "beginner": 1.00, "novice": 1.75, "intermediate": 2.50, "advanced": 3.50, "elite": 4.50 } } },
+    { "id": "hack-squat", "name": "Hack Squat", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Plate load excludes carriage",
+      "ratios": { "male": { "beginner": 0.75, "novice": 1.50, "intermediate": 2.25, "advanced": 3.00, "elite": 3.75 } } },
+    { "id": "smith-squat", "name": "Smith Machine Squat", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Guided bar squat",
+      "ratios": { "male": { "beginner": 0.75, "novice": 1.25, "intermediate": 1.75, "advanced": 2.25, "elite": 2.75 } } },
+    { "id": "smith-bench-press", "name": "Smith Machine Bench Press", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Guided bar bench",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.75, "intermediate": 1.20, "advanced": 1.65, "elite": 1.95 } } },
+    { "id": "smith-shoulder-press", "name": "Smith Machine Shoulder Press", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Guided bar press",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "smith-row", "name": "Smith Machine Row", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Guided bar row",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.50, "elite": 1.85 } } },
+    { "id": "leg-extension", "name": "Leg Extension", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.85, "intermediate": 1.25, "advanced": 1.75, "elite": 2.25 } } },
+    { "id": "seated-leg-curl", "name": "Seated Leg Curl", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.65, "intermediate": 0.95, "advanced": 1.30, "elite": 1.65 } } },
+    { "id": "lying-leg-curl", "name": "Lying Leg Curl", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.35, "novice": 0.60, "intermediate": 0.90, "advanced": 1.20, "elite": 1.55 } } },
+    { "id": "calf-raise", "name": "Standing Calf Raise", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Stack/plate load",
+      "ratios": { "male": { "beginner": 0.75, "novice": 1.50, "intermediate": 2.50, "advanced": 3.50, "elite": 4.50 } } },
+    { "id": "seated-calf-raise", "name": "Seated Calf Raise", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Plate load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 1.00, "intermediate": 1.60, "advanced": 2.30, "elite": 3.00 } } },
+    { "id": "hip-adduction", "name": "Hip Adduction", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.90, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.70, "intermediate": 1.05, "advanced": 1.45, "elite": 1.85 } } },
+    { "id": "hip-abduction", "name": "Hip Abduction", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.90, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.70, "intermediate": 1.05, "advanced": 1.45, "elite": 1.85 } } },
+    { "id": "glute-kickback-machine", "name": "Glute Kickback (Machine)", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "chest-press", "name": "Machine Chest Press", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.20, "advanced": 1.60, "elite": 2.00 } } },
+    { "id": "machine-chest-fly", "name": "Pec Deck Fly", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "machine-shoulder-press", "name": "Machine Shoulder Press", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "machine-lateral-raise", "name": "Machine Lateral Raise", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.15, "novice": 0.25, "intermediate": 0.40, "advanced": 0.58, "elite": 0.78 } } },
+    { "id": "machine-rear-delt-fly", "name": "Machine Rear Delt Fly", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "machine-row", "name": "Machine Row", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.15, "advanced": 1.55, "elite": 1.95 } } },
+    { "id": "machine-bicep-curl", "name": "Machine Bicep Curl", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.42, "intermediate": 0.62, "advanced": 0.85, "elite": 1.10 } } },
+    { "id": "machine-preacher-curl", "name": "Machine Preacher Curl", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.42, "intermediate": 0.62, "advanced": 0.85, "elite": 1.10 } } },
+    { "id": "machine-tricep-extension", "name": "Machine Tricep Extension", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "machine-dip", "name": "Machine Dip", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.20, "advanced": 1.60, "elite": 2.00 } } },
+    { "id": "machine-ab-crunch", "name": "Machine Ab Crunch", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.40 } } },
+    { "id": "machine-back-extension", "name": "Back Extension (Machine)", "equipment": "machine", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.40 } } },
 
-    {
-      "id": "pull-ups", "name": "Pull Ups", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "image": "assets/images/pull_up.svg", "estimateNote": "Classified by reps"
-    },
-    {
-      "id": "push-ups", "name": "Push Ups", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "image": "assets/images/push_up.svg", "estimateNote": "Classified by reps"
-    },
-    {
-      "id": "dips", "name": "Dips", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "image": "assets/images/dip.svg", "estimateNote": "Classified by reps"
-    },
-    {
-      "id": "chin-ups", "name": "Chin Ups", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "estimateNote": "Classified by reps"
-    },
-    {
-      "id": "muscle-ups", "name": "Muscle Ups", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "estimateNote": "Classified by reps"
-    },
-    {
-      "id": "bodyweight-squat", "name": "Bodyweight Squat", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "estimateNote": "Classified by reps"
-    },
-    {
-      "id": "sit-ups", "name": "Sit Ups", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "estimateNote": "Classified by reps"
-    },
-    {
-      "id": "crunches", "name": "Crunches", "equipment": "bodyweight",
-      "loadType": "rep_count", "usesDataset": false, "ageAdjust": false,
-      "estimateNote": "Classified by reps"
-    }
+    { "id": "lat-pulldown", "name": "Lat Pulldown", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "image": "assets/images/lat_pulldown.svg", "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.50, "elite": 1.90 } } },
+    { "id": "close-grip-pulldown", "name": "Close Grip Pulldown", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.10, "advanced": 1.50, "elite": 1.90 } } },
+    { "id": "straight-arm-pulldown", "name": "Straight Arm Pulldown", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "seated-cable-row", "name": "Seated Cable Row", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.50, "novice": 0.80, "intermediate": 1.15, "advanced": 1.55, "elite": 1.95 } } },
+    { "id": "single-arm-cable-row", "name": "Single Arm Cable Row", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-arm stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.75, "elite": 0.95 } } },
+    { "id": "face-pull", "name": "Face Pull", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.15, "novice": 0.28, "intermediate": 0.45, "advanced": 0.65, "elite": 0.90 } } },
+    { "id": "cable-rear-delt-fly", "name": "Cable Rear Delt Fly", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.12, "novice": 0.22, "intermediate": 0.35, "advanced": 0.50, "elite": 0.70 } } },
+    { "id": "cable-fly", "name": "Cable Fly (Crossover)", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-side stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "cable-lateral-raise", "name": "Cable Lateral Raise", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-arm stack load",
+      "ratios": { "male": { "beginner": 0.08, "novice": 0.13, "intermediate": 0.20, "advanced": 0.30, "elite": 0.40 } } },
+    { "id": "cable-front-raise", "name": "Cable Front Raise", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.08, "novice": 0.13, "intermediate": 0.20, "advanced": 0.30, "elite": 0.40 } } },
+    { "id": "cable-curl", "name": "Cable Curl", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "cable-rope-hammer-curl", "name": "Cable Rope Hammer Curl", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.18, "novice": 0.30, "intermediate": 0.48, "advanced": 0.68, "elite": 0.92 } } },
+    { "id": "tricep-pushdown", "name": "Tricep Pushdown", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.50, "intermediate": 0.75, "advanced": 1.05, "elite": 1.35 } } },
+    { "id": "rope-tricep-pushdown", "name": "Rope Tricep Pushdown", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.28, "novice": 0.48, "intermediate": 0.72, "advanced": 1.00, "elite": 1.30 } } },
+    { "id": "cable-overhead-extension", "name": "Cable Overhead Tricep Extension", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "cable-tricep-kickback", "name": "Cable Tricep Kickback", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Per-arm stack load",
+      "ratios": { "male": { "beginner": 0.10, "novice": 0.18, "intermediate": 0.28, "advanced": 0.40, "elite": 0.52 } } },
+    { "id": "cable-glute-kickback", "name": "Cable Glute Kickback", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.85, "estimateNote": "Per-leg stack load",
+      "ratios": { "male": { "beginner": 0.20, "novice": 0.35, "intermediate": 0.55, "advanced": 0.78, "elite": 1.05 } } },
+    { "id": "cable-pull-through", "name": "Cable Pull Through", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.82, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.30, "novice": 0.55, "intermediate": 0.85, "advanced": 1.20, "elite": 1.60 } } },
+    { "id": "cable-crunch", "name": "Cable Crunch", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.45, "intermediate": 0.70, "advanced": 1.00, "elite": 1.35 } } },
+    { "id": "cable-woodchop", "name": "Cable Woodchop", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "femaleFactor": 0.80, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.15, "novice": 0.28, "intermediate": 0.45, "advanced": 0.65, "elite": 0.90 } } },
+    { "id": "cable-shrug", "name": "Cable Shrug", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.40, "novice": 0.70, "intermediate": 1.05, "advanced": 1.45, "elite": 1.90 } } },
+    { "id": "cable-upright-row", "name": "Cable Upright Row", "equipment": "cable", "loadType": "external_weight", "usesDataset": false, "ageAdjust": true, "estimateNote": "Stack load",
+      "ratios": { "male": { "beginner": 0.25, "novice": 0.42, "intermediate": 0.65, "advanced": 0.90, "elite": 1.20 } } },
+
+    { "id": "pull-ups", "name": "Pull Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "image": "assets/images/pull_up.svg", "estimateNote": "Classified by reps" },
+    { "id": "chin-ups", "name": "Chin Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "muscle-ups", "name": "Muscle Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "inverted-row", "name": "Inverted Row", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "push-ups", "name": "Push Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "image": "assets/images/push_up.svg", "estimateNote": "Classified by reps" },
+    { "id": "diamond-push-up", "name": "Diamond Push Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "wide-push-up", "name": "Wide Push Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "decline-push-up", "name": "Decline Push Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "pike-push-up", "name": "Pike Push Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "handstand-push-up", "name": "Handstand Push Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "dips", "name": "Dips", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "image": "assets/images/dip.svg", "estimateNote": "Classified by reps" },
+    { "id": "bodyweight-squat", "name": "Bodyweight Squat", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "bodyweight-lunge", "name": "Bodyweight Lunge", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "pistol-squat", "name": "Pistol Squat", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "jump-squat", "name": "Jump Squat", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "bodyweight-step-up", "name": "Bodyweight Step Up", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "glute-bridge", "name": "Glute Bridge", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "nordic-curl", "name": "Nordic Hamstring Curl", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "calf-raise-bodyweight", "name": "Bodyweight Calf Raise", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "hanging-leg-raise", "name": "Hanging Leg Raise", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "hanging-knee-raise", "name": "Hanging Knee Raise", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "toes-to-bar", "name": "Toes To Bar", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "sit-ups", "name": "Sit Ups", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "crunches", "name": "Crunches", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "bicycle-crunch", "name": "Bicycle Crunch", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "russian-twist", "name": "Russian Twist", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "flutter-kicks", "name": "Flutter Kicks", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "mountain-climbers", "name": "Mountain Climbers", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "burpees", "name": "Burpees", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "superman", "name": "Superman", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "hyperextension", "name": "Back Hyperextension", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Classified by reps" },
+    { "id": "plank", "name": "Plank", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Enter hold time in seconds" },
+    { "id": "side-plank", "name": "Side Plank", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Enter hold time in seconds" },
+    { "id": "wall-sit", "name": "Wall Sit", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Enter hold time in seconds" },
+    { "id": "l-sit", "name": "L-Sit", "equipment": "bodyweight", "loadType": "rep_count", "usesDataset": false, "ageAdjust": false, "estimateNote": "Enter hold time in seconds" }
   ]
 }

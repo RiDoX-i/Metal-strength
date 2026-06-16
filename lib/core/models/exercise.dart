@@ -5,6 +5,7 @@ import 'sex.dart';
 enum Equipment {
   barbell('Barbell'),
   dumbbell('Dumbbell'),
+  kettlebell('Kettlebell'),
   machine('Machine'),
   cable('Cable'),
   bodyweight('Bodyweight');
