@@ -1,0 +1,295 @@
+# Strength Calculator App — Build Catalog & Formula Spec
+
+**Purpose:** This document is a complete build specification for an AI coding agent (Claude Code).
+It contains every formula, coefficient, classification table, and legal data source needed to build
+a mobile app that tells a user their **strength level** based on the weight they lift, their
+bodyweight, gender, age, and the exercise performed.
+
+**Legal note for the implementer:** Every formula and dataset referenced here is either pure
+mathematics (not copyrightable) or released under a permissive/public-domain license. Do **not**
+scrape or call `strengthlevel.com` — their Terms forbid automated access and their tables are their
+proprietary data. Build standards from the open sources listed in Section 7 instead.
+
+---
+
+## 1. App Overview
+
+The app takes user input and returns a strength classification.
+
+**Inputs:**
+- Gender (male / female)
+- Bodyweight (kg or lb)
+- Age (optional, for age-adjusted standards)
+- Exercise (from catalog)
+- Weight lifted + reps performed (to estimate 1RM)
+
+**Outputs:**
+- Estimated 1-rep max (1RM)
+- Strength level tier (Beginner → Elite)
+- Percentile vs. population
+- Bodyweight ratio (lift ÷ bodyweight)
+- For powerlifts: Wilks score, DOTS score, IPF GL points
+
+**Core pipeline:**
+```
+user lift + reps  ──►  1RM estimate  ──►  bodyweight ratio  ──►  tier lookup  ──►  level + percentile
+                                     └──►  Wilks / DOTS / IPF GL (powerlifts only)
+```
+
+---
+
+## 2. One-Rep Max (1RM) Estimation Formulas
+
+Convert any "weight × reps" set into an estimated single-rep max. Implement several and let the
+user choose (or average them). `w` = weight lifted, `r` = reps performed.
+
+| Formula | Equation | Notes |
+|---|---|---|
+| **Epley** | `1RM = w × (1 + r / 30)` | Most common; good general use |
+| **Brzycki** | `1RM = w × 36 / (37 − r)` | Accurate for low reps (<10) |
+| **Lander** | `1RM = (100 × w) / (101.3 − 2.67123 × r)` | — |
+| **Lombardi** | `1RM = w × r^0.10` | Power-curve based |
+| **Mayhew et al.** | `1RM = (100 × w) / (52.2 + 41.9 × e^(−0.055 × r))` | Research-validated |
+| **O'Conner et al.** | `1RM = w × (1 + 0.025 × r)` | Simple linear |
+| **Wathan** | `1RM = (100 × w) / (48.8 + 53.8 × e^(−0.075 × r))` | — |
+
+> If `r == 1`, 1RM = w (skip estimation).
+> Accuracy degrades above ~10–12 reps for all formulas; warn the user.
+
+**Reps → % of 1RM reference table** (standard, used to predict load for a target rep count):
+
+| Reps | % 1RM | Reps | % 1RM | Reps | % 1RM |
+|---|---|---|---|---|---|
+| 1 | 100 | 11 | 73 | 21 | 59 |
+| 2 | 97 | 12 | 71 | 22 | 58 |
+| 3 | 94 | 13 | 70 | 23 | 57 |
+| 4 | 92 | 14 | 68 | 24 | 56 |
+| 5 | 89 | 15 | 67 | 25 | 55 |
+| 6 | 86 | 16 | 65 | 26 | 54 |
+| 7 | 83 | 17 | 64 | 27 | 53 |
+| 8 | 81 | 18 | 63 | 28 | 52 |
+| 9 | 78 | 19 | 61 | 29 | 51 |
+| 10 | 75 | 20 | 60 | 30 | 50 |
+
+**References:** Epley B. (1985); Brzycki M. (1993), *JOPERD*; Lombardi V.P. (1989);
+Mayhew J.L. et al. (1992), *J. Appl. Sport Sci. Res.*
+
+---
+
+## 3. Strength Level Tiers (Classification)
+
+Use a percentile-based tier system. These tier names and percentile cut-offs are a generic,
+widely-used convention (not proprietary).
+
+| Tier | Percentile | Meaning |
+|---|---|---|
+| **Beginner** | ≥ 5th | Stronger than 5% of lifters |
+| **Novice** | ≥ 20th | Stronger than 20% |
+| **Intermediate** | ≥ 50th | Stronger than 50% (population median) |
+| **Advanced** | ≥ 80th | Stronger than 80% |
+| **Elite** | ≥ 95th | Stronger than 95% |
+
+**How to assign a tier:** Compute the user's estimated 1RM, normalize for bodyweight (and optionally
+age), then compare against the percentile distribution for that exercise/gender/bodyweight cohort
+(built from the dataset in Section 7). The percentile the user falls into → their tier.
+
+---
+
+## 4. Bodyweight-Ratio Standards (fast lookup, no dataset required)
+
+For a lightweight implementation that needs no dataset, classify by **lift ÷ bodyweight ratio**.
+Below are representative ratio anchors for the big compound lifts. Treat these as starting
+reference values — ideally recalibrate from the OpenPowerlifting dataset (Section 7).
+
+**Barbell — Male (× bodyweight):**
+
+| Exercise | Beginner | Novice | Intermediate | Advanced | Elite |
+|---|---|---|---|---|---|
+| Bench Press | 0.50 | 0.75 | 1.25 | 1.75 | 2.00 |
+| Squat | 0.75 | 1.25 | 1.50 | 2.25 | 2.75 |
+| Deadlift | 1.00 | 1.50 | 2.00 | 2.50 | 3.00 |
+| Overhead Press | 0.35 | 0.55 | 0.80 | 1.10 | 1.40 |
+| Barbell Row | 0.50 | 0.75 | 1.00 | 1.50 | 1.75 |
+
+**Barbell — Female (× bodyweight):**
+
+| Exercise | Beginner | Novice | Intermediate | Advanced | Elite |
+|---|---|---|---|---|---|
+| Bench Press | 0.25 | 0.50 | 0.75 | 1.00 | 1.50 |
+| Squat | 0.50 | 0.75 | 1.25 | 1.50 | 2.00 |
+| Deadlift | 0.50 | 1.00 | 1.25 | 1.75 | 2.25 |
+| Overhead Press | 0.20 | 0.35 | 0.50 | 0.75 | 1.00 |
+| Barbell Row | 0.25 | 0.40 | 0.65 | 0.90 | 1.20 |
+
+> **Recommended architecture:** store these ratios in a JSON config file so they can be tuned
+> per-exercise without code changes. See Section 6 for the schema.
+
+---
+
+## 5. Bodyweight-Adjusted Scoring (Powerlifts: Squat + Bench + Deadlift)
+
+These let users compare across bodyweights and genders. All are public formulas.
+**Bodyweight `x` and all lifts must be in KILOGRAMS.** Total = squat + bench + deadlift (kg).
+
+### 5.1 Wilks (Original / 2004)
+```
+Coefficient = 500 / (a + b·x + c·x² + d·x³ + e·x⁴ + f·x⁵)
+Wilks Score = Total(kg) × Coefficient
+```
+| Const | Men | Women |
+|---|---|---|
+| a | -216.0475144 | 594.31747775582 |
+| b | 16.2606339 | -27.23842536447 |
+| c | -0.002388645 | 0.82112226871 |
+| d | -0.00113732 | -0.00930733913 |
+| e | 7.01863e-6 | 4.731582e-5 |
+| f | -1.291e-8 | -9.054e-8 |
+
+### 5.2 Wilks-2 (2020 revision)
+Same equation form, updated constants:
+| Const | Men | Women |
+|---|---|---|
+| a | 47.46178854 | -125.4255398 |
+| b | 8.472061379 | 13.71219419 |
+| c | 0.07369410346 | -0.03307250631 |
+| d | -0.001395833811 | -0.001050400051 |
+| e | 7.07665973070743e-6 | 9.38773881462799e-6 |
+| f | -1.20804336482315e-8 | -2.3334613884954e-8 |
+
+### 5.3 DOTS (2019, Tim Konertz)
+4th-degree polynomial; widely considered the most neutral across bodyweights.
+```
+Coefficient = 500 / (A + B·x + C·x² + D·x³ + E·x⁴)
+DOTS Score = Total(kg) × Coefficient
+```
+| Const | Men | Women |
+|---|---|---|
+| A | -307.75076 | -57.96288 |
+| B | 24.0900756 | 13.6175032 |
+| C | -0.1918759221 | -0.1126655495 |
+| D | 0.0007391293 | 0.0005158568 |
+| E | -0.000001093 | -0.0000010706 |
+
+> Verify the DOTS constants against the source repo (Section 7) on first build — different sites
+> publish them in different sign conventions / orderings. The polynomial is written here highest
+> term last (constant first).
+
+### 5.4 Score interpretation (rough, both formulas)
+
+| Wilks/DOTS | Level |
+|---|---|
+| < 200 | Beginner |
+| 200–300 | Intermediate |
+| 300–400 | Advanced |
+| 400–500 | Elite |
+| 500+ | World class |
+
+**References:** Wilks R., Powerlifting Australia (1995, rev. 2020); Konertz T., BVDK (2019);
+Vanderburgh & Batterham on allometric strength normalization.
+
+---
+
+## 6. Exercise Catalog & Data Schema
+
+Cover the full gym, grouped by equipment. The big lifts get dataset-derived percentiles; accessory
+lifts use ratio estimates anchored to a related compound lift.
+
+**Barbell:** Bench Press, Squat, Deadlift, Overhead/Shoulder Press, Barbell Curl, Bent Over Row,
+Incline Bench Press, Front Squat, Hex Bar Deadlift, Hip Thrust, Romanian Deadlift, Power Clean,
+Military Press, Sumo Deadlift, Clean and Jerk, EZ Bar Curl, Close Grip Bench, Snatch, Preacher Curl,
+Barbell Shrug, T-Bar Row, Push Press, Decline Bench.
+
+**Dumbbell:** DB Bench Press, DB Curl, Incline DB Press, DB Shoulder Press, DB Lateral Raise,
+DB Row, Hammer Curl, DB Bulgarian Split Squat, Goblet Squat, DB Fly, DB Shrug.
+
+**Machine:** Leg Press (sled & horizontal), Leg Extension, Chest Press, Hack Squat, Machine Shoulder
+Press, Machine Chest Fly, Seated/Lying Leg Curl, Calf Raise, Hip Adduction.
+
+**Cable:** Lat Pulldown, Tricep Pushdown, Seated Cable Row.
+
+**Bodyweight (rep-based, not load-based):** Pull Ups, Push Ups, Dips, Chin Ups, Muscle Ups,
+Bodyweight Squat, Sit Ups, Crunches. For these, classify by **rep count** vs. population, not 1RM.
+
+### Suggested JSON config per exercise
+```json
+{
+  "id": "bench-press",
+  "name": "Bench Press",
+  "equipment": "barbell",
+  "loadType": "external_weight",
+  "usesDataset": true,
+  "ratios": {
+    "male":   { "beginner": 0.50, "novice": 0.75, "intermediate": 1.25, "advanced": 1.75, "elite": 2.00 },
+    "female": { "beginner": 0.25, "novice": 0.50, "intermediate": 0.75, "advanced": 1.00, "elite": 1.50 }
+  },
+  "ageAdjust": true
+}
+```
+
+> **Age adjustment:** strength peaks ~25–35, then declines. Apply a multiplier curve (≈1.0 at 25–35,
+> tapering down with age and slightly up toward late teens). Derive the curve from the dataset rather
+> than hardcoding, if possible.
+
+---
+
+## 7. Legal Open Data Sources (build standards from these)
+
+| Source | What it gives you | License | Link |
+|---|---|---|---|
+| **OpenPowerlifting** | 2.5M+ verified squat/bench/deadlift competition results with bodyweight, sex, age | **Public domain** (data) / AGPLv3 (code) | https://data.openpowerlifting.org |
+| OpenPowerlifting repo | Raw CSVs + checker code | AGPLv3+ | https://gitlab.com/openpowerlifting/opl-data |
+| OpenWeight | Vendor-neutral JSON schema for logs/programs/profiles (import/export) | Open | https://github.com/radupana/openweight |
+| Kaggle mirror | Convenient CSV snapshot of OpenPowerlifting | Public domain | https://www.kaggle.com/datasets/open-powerlifting/powerlifting-database |
+
+**Recommended workflow to generate real percentiles:**
+1. Download `openpowerlifting.csv`.
+2. Filter by sex, equipment = Raw, valid bodyweight & lift values.
+3. Bucket by bodyweight class (e.g. 5–10 kg bins).
+4. For each (exercise, sex, bodyweight bin), compute the 5/20/50/80/95th percentiles of 1RM.
+5. Export to a compact lookup table (JSON) the app ships with — no live API calls needed.
+6. Add a one-line attribution: *"Includes data from OpenPowerlifting.org (public domain)."*
+
+> OpenPowerlifting only covers squat/bench/deadlift. For accessory lifts not in the dataset,
+> derive standards as a ratio of the nearest compound (e.g. incline bench ≈ 0.8 × flat bench;
+> front squat ≈ 0.85 × back squat) and label them clearly as **estimates**.
+
+---
+
+## 8. Recommended Tech Stack (suggestion, not mandatory)
+
+- **Cross-platform mobile:** React Native or Flutter
+- **State:** local-first; ship percentile tables as bundled JSON (no backend needed for v1)
+- **Optional sync:** add a backend later if you want user accounts / history
+- **Offline:** everything in Sections 2–6 runs fully offline
+
+---
+
+## 9. Build Checklist for the Coding Agent
+
+- [ ] Implement all 1RM formulas (Section 2) with a unit toggle (kg/lb).
+- [ ] Implement Wilks, Wilks-2, DOTS, IPF GL scoring (Section 5) — kg internally, convert on display.
+- [ ] Build the exercise catalog as JSON config (Section 6).
+- [ ] Write a data-prep script that turns OpenPowerlifting CSV into percentile lookup tables (Section 7).
+- [ ] Implement tier assignment: dataset percentile first, ratio fallback for non-dataset lifts.
+- [ ] Add age-adjustment curve.
+- [ ] Handle bodyweight exercises by rep count, not load.
+- [ ] Show: 1RM, tier, percentile, bodyweight ratio, and (for powerlifts) Wilks/DOTS.
+- [ ] Ship attribution line for OpenPowerlifting data.
+- [ ] Unit tests: verify each formula against a known worked example.
+
+---
+
+## 10. Worked Example (for test validation)
+
+Male, 80 kg bodyweight, benched 100 kg × 5 reps.
+- Epley 1RM = 100 × (1 + 5/30) = **116.7 kg**
+- Bodyweight ratio = 116.7 / 80 = **1.46×** → between Intermediate (1.25) and Advanced (1.75) → **Intermediate+**
+- (For a powerlifting total, feed Squat+Bench+Deadlift into the Wilks/DOTS functions.)
+
+Use this example as an automated test fixture.
+
+---
+
+*All formulas in this document are public-domain mathematics or published research. Standards data
+must be sourced from OpenPowerlifting (public domain) or computed in-house. Do not use proprietary
+tables from commercial sites.*
