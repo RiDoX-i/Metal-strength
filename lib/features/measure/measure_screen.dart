@@ -69,7 +69,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   void _calculate(AppState state) {
     final profile = state.profile;
-    final calc = const StrengthCalculator();
+    const calc = StrengthCalculator();
 
     if (exercise.isBodyweight) {
       final reps = int.parse(_reps.text);

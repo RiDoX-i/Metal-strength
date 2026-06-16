@@ -18,7 +18,6 @@ pubspec.lock
 android/.gradle/
 android/local.properties
 android/key.properties
-**/android/**/gradle-wrapper.jar
 **/android/.gradle
 **/android/captures/
 **/android/local.properties

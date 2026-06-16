@@ -7,7 +7,7 @@ import 'package:metal_strength/core/models/user_profile.dart';
 import 'package:metal_strength/core/strength_calculator.dart';
 
 // Male bench-press entry mirroring assets/catalog/exercises.json.
-final benchPress = Exercise(
+const benchPress = Exercise(
   id: 'bench-press',
   name: 'Bench Press',
   equipment: Equipment.barbell,
@@ -16,14 +16,14 @@ final benchPress = Exercise(
   ageAdjust: true,
   isPowerlift: true,
   image: null,
-  maleAnchors: const RatioAnchors(
+  maleAnchors: RatioAnchors(
     beginner: 0.50,
     novice: 0.75,
     intermediate: 1.25,
     advanced: 1.75,
     elite: 2.00,
   ),
-  femaleAnchors: const RatioAnchors(
+  femaleAnchors: RatioAnchors(
     beginner: 0.25,
     novice: 0.50,
     intermediate: 0.75,
@@ -54,7 +54,7 @@ void main() {
   });
 
   test('rep-based assessment classifies by reps', () {
-    final pullUps = Exercise(
+    const pullUps = Exercise(
       id: 'pull-ups',
       name: 'Pull Ups',
       equipment: Equipment.bodyweight,

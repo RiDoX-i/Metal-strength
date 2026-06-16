@@ -102,7 +102,7 @@ class _GaugePainter extends CustomPainter {
         ..shader = SweepGradient(
           startAngle: _start,
           endAngle: _start + _sweep,
-          colors: [color.withOpacity(0.55), color],
+          colors: [color.withValues(alpha: 0.55), color],
         ).createShader(rect);
       canvas.drawArc(rect, _start, _sweep * progress, false, fill);
 
