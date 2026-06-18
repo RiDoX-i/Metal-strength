@@ -67,6 +67,37 @@ class PrimaryButton extends StatelessWidget {
   }
 }
 
+/// Full-width outlined secondary action, styled to sit beneath a
+/// [PrimaryButton] without competing with it.
+class SecondaryButton extends StatelessWidget {
+  const SecondaryButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    this.icon,
+  });
+
+  final String label;
+  final VoidCallback? onPressed;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size.fromHeight(52),
+        side: const BorderSide(color: AppColors.stroke),
+        foregroundColor: AppColors.textPrimary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      icon: Icon(icon ?? Icons.arrow_forward_rounded, size: 20),
+      label: Text(label,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+    );
+  }
+}
+
 /// A pill-style segmented selector for a small set of [options].
 class SegmentedSelector<T> extends StatelessWidget {
   const SegmentedSelector({

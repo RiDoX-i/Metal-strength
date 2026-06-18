@@ -1,0 +1,11 @@
+# Copy this file to `key.properties` (which is git-ignored) and fill in your
+# real upload-keystore credentials. Generate the keystore with:
+#
+#   keytool -genkeypair -v -keystore android/upload-keystore.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+#
+# storeFile is resolved relative to the `android/` directory.
+storePassword=CHANGE_ME
+keyPassword=CHANGE_ME
+keyAlias=upload
+storeFile=upload-keystore.jks

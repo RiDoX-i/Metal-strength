@@ -1,7 +1,7 @@
 name: metal_strength
 description: "Metal Strength — know your strength level from what you lift."
 publish_to: "none"
-version: 1.0.0+1
+version: 1.2.0+3
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -17,14 +17,49 @@ dependencies:
   provider: ^6.1.2
   # Persists the user's profile + unit preference between launches.
   shared_preferences: ^2.2.3
+  # Authentication (email/password + Google). See SETUP.md for the Firebase
+  # project config the app expects at build time.
+  firebase_core: ^4.10.0
+  firebase_auth: ^6.5.2
+  google_sign_in: ^7.2.0
+  # Opens the donation link from the landing screen.
+  url_launcher: ^6.3.2
+  # Locale-aware formatting helpers used by the EN/FR localization.
+  intl: ^0.20.2
+  # Material/Cupertino localized widgets for the supported locales.
+  flutter_localizations:
+    sdk: flutter
+  share_plus: ^13.1.0
+  path_provider: ^2.1.6
+  # Plays the MAGNETIC FORCE company logo clip on the launch splash.
+  video_player: ^2.9.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  # Generates the Android (incl. adaptive) + iOS launcher icons from the
+  # magnet logo in assets/icon. Run `dart run flutter_launcher_icons` after
+  # regenerating the source PNGs with `python tool/generate_icon.py`.
+  flutter_launcher_icons: ^0.14.1
 
 flutter:
   uses-material-design: true
   assets:
     - assets/catalog/exercises.json
     - assets/images/
+    - assets/images/figures/
+    - assets/video/
+
+# App launcher icon — the chrome dumbbell on a blue→purple gradient.
+# The full image is used edge-to-edge: as the iOS/legacy icon (image_path) and
+# as the Android adaptive *background* layer, with a transparent foreground so
+# the gradient is not inset onto a dark border on Android 8+.
+flutter_launcher_icons:
+  image_path: "assets/icon/icon.png"
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  min_sdk_android: 21
+  adaptive_icon_background: "assets/icon/icon.png"
+  adaptive_icon_foreground: "assets/icon/icon_transparent.png"

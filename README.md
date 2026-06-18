@@ -13,13 +13,21 @@ formulas in [`refrence`](refrence).
 
 ## ✨ Features
 
+- **Accounts** — create an account or **Continue with Google** (Firebase Auth),
+  plus a guest mode. See [SETUP.md](SETUP.md) to wire your Firebase project.
+- **Landing screen** — a hero + one tap into the catalog, with a language switch
+  and a donation button.
+- **English & French** — pick the language on the landing screen; it's persisted.
+- **Illustrated figures** — every lift shows a drawn human-figure performing the
+  movement (no photos, no real person), grouped by movement pattern.
 - **Easy exercise picker** — search + filter by equipment (barbell, dumbbell,
-  machine, cable, bodyweight) with non-human vector illustrations for every lift.
-- **Choose your measurement** — pick the 1RM formula (Epley, Brzycki, Lander,
-  Lombardi, Mayhew, O'Conner, Wathan, or an average), or switch the big-3 lifts
-  to a **powerlifting total** for Wilks / Wilks-2 / DOTS / IPF GL scoring.
-- **Clear result** — animated tier gauge, percentile, bodyweight ratio, and how
-  much more you need for the next tier.
+  kettlebell, machine, cable, bodyweight).
+- **Single, industry-standard 1RM** — every estimate uses the **Epley** formula
+  (no confusing formula picker). The big-3 lifts can still switch to a
+  **powerlifting total** for Wilks / Wilks-2 / DOTS / IPF GL scoring.
+- **Rich result** — animated tier gauge, percentile, bodyweight ratio, the gap to
+  the next tier, the **world record** for that lift (men's or women's, by the
+  user's sex), and **bullet-point tips** to get stronger.
 - **Bodyweight movements** (pull ups, push ups, dips…) are rated by **rep count**.
 - **Profile-aware** — sex, bodyweight, optional age (age-adjusted standards),
   kg/lb units. Saved between launches.
@@ -29,22 +37,28 @@ formulas in [`refrence`](refrence).
 ```
 lib/
   core/
-    formulas/      one_rep_max, scoring (Wilks/DOTS/IPF GL), tiers,
+    auth/          auth_service (Firebase Auth + Google + guest fallback)
+    formulas/      one_rep_max (Epley), scoring (Wilks/DOTS/IPF GL), tiers,
                    age_adjust, units, rep_percent_table
     models/        exercise, user_profile, strength_result, sex
-    data/          exercise_repository (loads the JSON catalog)
+    data/          exercise_repository, exercise_art (figure classifier),
+                   world_records, exercise_tips
+    config.dart    donation URL + optional Google server client ID
     strength_calculator.dart   the lift → 1RM → ratio → tier pipeline
-  state/           app_state (profile + catalog, persisted)
+  l10n/            app_strings (EN/FR localization)
+  state/           app_state (profile + language + catalog, persisted)
   theme/           colors + Material 3 dark theme
   widgets/         tier_gauge, exercise_glyph, shared UI kit
   features/
-    home/          exercise selection
+    auth/          login / create-account screen
+    home/          landing screen + catalog (exercise selection)
     measure/       method choice + input
-    result/        tier result + powerlifting-score result
+    result/        tier result (+ world record + tips) and powerlifting score
     profile/       profile bottom sheet
+  firebase_options.dart   PLACEHOLDER — regenerate with `flutterfire configure`
 assets/
   catalog/exercises.json        the full exercise catalog + ratio anchors
-  images/*.svg                  non-human equipment illustrations
+  images/figures/*.svg          illustrated human-figure movement art
 test/                           unit tests (incl. refrence §10 worked example)
 ```
 
@@ -72,10 +86,15 @@ test/                           unit tests (incl. refrence §10 worked example)
    flutter run
    ```
 
-4. **Run the tests:**
+   The app boots straight into **guest mode** — no backend required. To enable
+   real accounts / Google sign-in and the donation link, follow
+   **[SETUP.md](SETUP.md)** (Firebase config, SHA-1 / URL scheme, donation URL).
+
+4. **Run the tests / static analysis:**
 
    ```bash
    flutter test
+   flutter analyze
    ```
 
 ## 🧮 The math

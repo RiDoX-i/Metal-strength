@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../core/data/exercise_art.dart';
 import '../core/models/exercise.dart';
 import '../theme/app_colors.dart';
 
-/// A rounded tile showing an exercise's non-human vector illustration on its
-/// equipment-coloured gradient.
+/// A rounded tile showing an illustrated human-figure performing the exercise,
+/// on its equipment-coloured gradient.
 class ExerciseGlyph extends StatelessWidget {
   const ExerciseGlyph({
     super.key,
@@ -41,7 +42,7 @@ class ExerciseGlyph extends StatelessWidget {
       ),
       padding: EdgeInsets.all(padding),
       child: SvgPicture.asset(
-        exercise.imageAsset,
+        figureFor(exercise),
         fit: BoxFit.contain,
         placeholderBuilder: (_) => const SizedBox.shrink(),
       ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/formulas/scoring.dart';
 import '../../core/formulas/units.dart';
 import '../../core/models/user_profile.dart';
+import '../../l10n/app_strings.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/app_widgets.dart';
@@ -48,7 +49,7 @@ class _ScoreResultScreenState extends State<ScoreResultScreen> {
     final level = Scoring.interpret(selected);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Powerlifting score')),
+      appBar: AppBar(title: Text(tr(context, 'pl_score_title'))),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -103,13 +104,13 @@ class _ScoreResultScreenState extends State<ScoreResultScreen> {
             SectionCard(
               child: Column(
                 children: [
-                  _liftRow('Squat', widget.squatKg, unit),
+                  _liftRow(tr(context, 'squat'), widget.squatKg, unit),
                   _divider(),
-                  _liftRow('Bench', widget.benchKg, unit),
+                  _liftRow(tr(context, 'bench'), widget.benchKg, unit),
                   _divider(),
-                  _liftRow('Deadlift', widget.deadliftKg, unit),
+                  _liftRow(tr(context, 'deadlift'), widget.deadliftKg, unit),
                   _divider(),
-                  _liftRow('Total', _totalKg, unit, bold: true),
+                  _liftRow(tr(context, 'total'), _totalKg, unit, bold: true),
                 ],
               ),
             ),
@@ -118,8 +119,8 @@ class _ScoreResultScreenState extends State<ScoreResultScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('All scoring systems',
-                      style: TextStyle(
+                  Text(tr(context, 'all_scoring'),
+                      style: const TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 13,
                           fontWeight: FontWeight.w600)),
@@ -148,12 +149,12 @@ class _ScoreResultScreenState extends State<ScoreResultScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
-                'Scores are computed in kilograms (converted for display). '
-                'Recalibrate percentiles from OpenPowerlifting.org (public domain).',
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                tr(context, 'pl_note'),
+                style:
+                    const TextStyle(color: AppColors.textSecondary, fontSize: 12),
               ),
             ),
           ],

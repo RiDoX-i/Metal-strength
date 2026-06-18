@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Network access: Firebase Auth, Google sign-in, and the donation link.
+         (The debug/profile manifests declare this too, for tooling.) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="metal_strength"
+        android:label="Metal Strength"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

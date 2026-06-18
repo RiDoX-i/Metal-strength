@@ -77,10 +77,6 @@ class Exercise {
     return fallbackAnchorsFor(sex);
   }
 
-  /// Resolve the illustration to show, falling back to the equipment glyph.
-  String get imageAsset =>
-      image ?? 'assets/images/${equipment.name}.svg';
-
   factory Exercise.fromJson(Map<String, dynamic> json) {
     RatioAnchors? anchors(String sexKey) {
       final ratios = json['ratios'] as Map<String, dynamic>?;

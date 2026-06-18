@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/models/exercise.dart';
+import '../../l10n/app_strings.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_colors.dart';
 import '../measure/measure_screen.dart';
 import '../profile/profile_sheet.dart';
 import 'widgets/exercise_card.dart';
 
-/// The catalog / exercise-selection screen.
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+/// The catalog / exercise-selection screen (reached from the landing screen).
+class CatalogScreen extends StatefulWidget {
+  const CatalogScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<CatalogScreen> createState() => _CatalogScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _CatalogScreenState extends State<CatalogScreen> {
   final TextEditingController _search = TextEditingController();
   Equipment? _filter; // null == All
   String _query = '';
@@ -33,8 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       list = list.where((e) => e.equipment == _filter).toList();
     }
     if (_query.trim().isNotEmpty) {
-      final q = _query.toLowerCase();
-      list = list.where((e) => e.name.toLowerCase().contains(q)).toList();
+      list = list.where((e) => exerciseMatchesQuery(e, _query)).toList();
     }
     return list;
   }
@@ -49,19 +49,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
     final exercises = _visible(state);
+    final p = state.profile;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(tr(context, 'browse_exercises')),
+        actions: [
+          _ProfileChip(
+            label: '${sexLabel(context, p.sex)} · '
+                '${p.bodyweightInUnit.toStringAsFixed(0)}${p.unit.symbol}',
+            onTap: () => ProfileSheet.show(context),
+          ),
+          const SizedBox(width: 12),
+        ],
+      ),
       body: SafeArea(
+        top: false,
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: _header(context, state)),
+            SliverToBoxAdapter(child: _subtitle(context)),
             SliverToBoxAdapter(child: _searchField()),
             SliverToBoxAdapter(child: _categoryChips()),
             const SliverToBoxAdapter(child: SizedBox(height: 8)),
             if (exercises.isEmpty)
-              const SliverFillRemaining(
+              SliverFillRemaining(
                 hasScrollBody: false,
-                child: _EmptyState(),
+                child: _EmptyState(message: tr(context, 'empty_search')),
               )
             else
               SliverPadding(
@@ -81,32 +94,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _header(BuildContext context, AppState state) {
-    final p = state.profile;
+  Widget _subtitle(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Metal Strength',
-                    style: Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(height: 2),
-                Text(
-                  'Pick an exercise to rate your strength',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
-          _ProfileChip(
-            label: '${p.sex.label} · '
-                '${p.bodyweightInUnit.toStringAsFixed(0)}${p.unit.symbol}',
-            onTap: () => ProfileSheet.show(context),
-          ),
-        ],
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 14),
+      child: Text(
+        tr(context, 'catalog_subtitle'),
+        style: Theme.of(context).textTheme.bodySmall,
       ),
     );
   }
@@ -119,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onChanged: (v) => setState(() => _query = v),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-          hintText: 'Search exercises',
+          hintText: tr(context, 'search_hint'),
           prefixIcon:
               const Icon(Icons.search_rounded, color: AppColors.textSecondary),
           suffixIcon: _query.isEmpty
@@ -139,8 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _categoryChips() {
     final entries = <(String, Equipment?)>[
-      ('All', null),
-      for (final e in Equipment.values) (e.label, e),
+      (tr(context, 'filter_all'), null),
+      for (final e in Equipment.values) (equipmentLabel(context, e), e),
     ];
     return SizedBox(
       height: 40,
@@ -189,29 +182,32 @@ class _ProfileChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.stroke),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.person_rounded,
-                size: 18, color: AppColors.accent),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
+    return Center(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.stroke),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.person_rounded,
+                  size: 16, color: AppColors.accent),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -219,21 +215,24 @@ class _ProfileChip extends StatelessWidget {
 }
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState();
+  const _EmptyState({required this.message});
+
+  final String message;
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Padding(
-        padding: EdgeInsets.all(40),
+        padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.fitness_center_rounded,
+            const Icon(Icons.fitness_center_rounded,
                 size: 48, color: AppColors.textSecondary),
-            SizedBox(height: 12),
-            Text('No exercises match your search',
-                style: TextStyle(color: AppColors.textSecondary)),
+            const SizedBox(height: 12),
+            Text(message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: AppColors.textSecondary)),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/formulas/units.dart';
 import '../../core/models/sex.dart';
+import '../../l10n/app_strings.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/app_widgets.dart';
@@ -82,23 +83,23 @@ class _ProfileSheetState extends State<ProfileSheet> {
             ),
           ),
           const SizedBox(height: 18),
-          Text('Your profile',
+          Text(tr(context, 'your_profile'),
               style: Theme.of(context).textTheme.headlineMedium),
           const SizedBox(height: 4),
-          const Text(
-            'Used to compare your lifts against population standards.',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+          Text(
+            tr(context, 'profile_subtitle'),
+            style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
           ),
           const SizedBox(height: 20),
-          _label('Sex'),
+          _label(tr(context, 'sex')),
           SegmentedSelector<Sex>(
             options: Sex.values,
             selected: profile.sex,
-            labelOf: (s) => s.label,
+            labelOf: (s) => sexLabel(context, s),
             onChanged: state.setSex,
           ),
           const SizedBox(height: 18),
-          _label('Units'),
+          _label(tr(context, 'units')),
           SegmentedSelector<WeightUnit>(
             options: WeightUnit.values,
             selected: profile.unit,
@@ -117,7 +118,7 @@ class _ProfileSheetState extends State<ProfileSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _label('Bodyweight (${profile.unit.symbol})'),
+                    _label('${tr(context, 'bodyweight')} (${profile.unit.symbol})'),
                     TextField(
                       controller: _bodyweight,
                       keyboardType:
@@ -136,7 +137,7 @@ class _ProfileSheetState extends State<ProfileSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _label('Age (optional)'),
+                    _label(tr(context, 'age_optional')),
                     TextField(
                       controller: _age,
                       keyboardType: TextInputType.number,
@@ -154,7 +155,7 @@ class _ProfileSheetState extends State<ProfileSheet> {
           ),
           const SizedBox(height: 24),
           PrimaryButton(
-            label: 'Done',
+            label: tr(context, 'done'),
             icon: Icons.check_rounded,
             onPressed: () {
               _saveBodyweight(state);

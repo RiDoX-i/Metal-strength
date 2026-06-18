@@ -15,6 +15,7 @@ class TierGauge extends StatelessWidget {
     required this.centerValue,
     required this.centerLabel,
     this.size = 240,
+    this.animate = true,
   });
 
   /// 0..100.
@@ -24,12 +25,18 @@ class TierGauge extends StatelessWidget {
   final String centerLabel;
   final double size;
 
+  /// When false the sweep is drawn fully on the first frame (no fill-up
+  /// animation) — used when rendering the gauge into a shareable image, where
+  /// a mid-animation capture would show a partially filled arc.
+  final bool animate;
+
   @override
   Widget build(BuildContext context) {
     final color = Color(tier.colorValue);
+    final target = (percentile / 100).clamp(0.0, 1.0);
     return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: (percentile / 100).clamp(0.0, 1.0)),
-      duration: const Duration(milliseconds: 1100),
+      tween: Tween(begin: animate ? 0 : target, end: target),
+      duration: Duration(milliseconds: animate ? 1100 : 0),
       curve: Curves.easeOutCubic,
       builder: (context, value, _) {
         return SizedBox(

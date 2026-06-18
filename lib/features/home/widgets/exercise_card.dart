@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/models/exercise.dart';
+import '../../../l10n/app_strings.dart';
 import '../../../theme/app_colors.dart';
 import '../../../widgets/exercise_glyph.dart';
 
@@ -41,7 +42,7 @@ class ExerciseCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      exercise.name,
+                      exerciseName(context, exercise),
                       style: Theme.of(context).textTheme.titleMedium,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -49,10 +50,10 @@ class ExerciseCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        _tag(exercise.equipment.label),
+                        _tag(equipmentLabel(context, exercise.equipment)),
                         if (exercise.isBodyweight) ...[
                           const SizedBox(width: 6),
-                          _tag('Reps'),
+                          _tag(tr(context, 'reps')),
                         ],
                         if (exercise.isPowerlift) ...[
                           const SizedBox(width: 6),

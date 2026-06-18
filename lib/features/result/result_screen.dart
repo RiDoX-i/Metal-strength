@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/data/exercise_tips.dart';
+import '../../core/data/world_records.dart';
 import '../../core/formulas/tiers.dart';
 import '../../core/formulas/units.dart';
 import '../../core/models/exercise.dart';
+import '../../core/models/sex.dart';
 import '../../core/models/strength_result.dart';
+import '../../l10n/app_strings.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_colors.dart';
+import '../../widgets/app_widgets.dart';
 import '../../widgets/exercise_glyph.dart';
+import '../../widgets/share_card.dart';
 import '../../widgets/tier_gauge.dart';
 
 /// Shows the tier / percentile outcome of an assessment.
@@ -23,12 +29,23 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final unit = context.watch<AppState>().unit;
+    final state = context.watch<AppState>();
+    final unit = state.unit;
+    final sex = state.profile.sex;
     final tierColor = Color(result.tier.colorValue);
     final isReps = result.oneRmKg == null;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Result')),
+      appBar: AppBar(
+        title: Text(tr(context, 'result_title')),
+        actions: [
+          IconButton(
+            tooltip: tr(context, 'share'),
+            icon: const Icon(Icons.ios_share_rounded),
+            onPressed: () => _share(context),
+          ),
+        ],
+      ),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -43,7 +60,7 @@ class ResultScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 14),
                 Expanded(
-                  child: Text(exercise.name,
+                  child: Text(exerciseName(context, exercise),
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
               ],
@@ -60,28 +77,34 @@ class ResultScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Center(
               child: Text(
-                'Stronger than ${result.percentile.round()}% of lifters',
+                trp(context, 'stronger_than', {'n': result.percentile.round()}),
                 style: const TextStyle(color: AppColors.textSecondary),
               ),
+            ),
+            const SizedBox(height: 18),
+            SecondaryButton(
+              label: tr(context, 'share'),
+              icon: Icons.ios_share_rounded,
+              onPressed: () => _share(context),
             ),
             const SizedBox(height: 24),
             Row(
               children: [
                 if (isReps)
                   _StatCard(
-                    label: 'Reps',
+                    label: tr(context, 'reps'),
                     value: '${result.repCount}',
                     color: tierColor,
                   )
                 else ...[
                   _StatCard(
-                    label: 'Est. 1RM',
+                    label: tr(context, 'est_1rm'),
                     value: _weight(result.oneRmKg!, unit),
                     color: tierColor,
                   ),
                   const SizedBox(width: 12),
                   _StatCard(
-                    label: 'Bodyweight ratio',
+                    label: tr(context, 'bw_ratio'),
                     value:
                         '${result.bodyweightRatio!.toStringAsFixed(2)}×',
                     color: tierColor,
@@ -92,12 +115,23 @@ class ResultScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _nextTierCard(context, unit, isReps),
             const SizedBox(height: 16),
-            _tierLadder(),
+            _tierLadder(context),
             const SizedBox(height: 16),
-            _notes(),
+            _worldRecordCard(context, sex, unit),
+            _tipsCard(context),
+            _notes(context),
           ],
         ),
       ),
+    );
+  }
+
+  void _share(BuildContext context) {
+    ShareResultSheet.show(
+      context,
+      result: result,
+      exercise: exercise,
+      unit: context.read<AppState>().unit,
     );
   }
 
@@ -106,6 +140,15 @@ class ResultScreen extends StatelessWidget {
     final text = v == v.roundToDouble()
         ? v.toStringAsFixed(0)
         : v.toStringAsFixed(1);
+    return '$text ${unit.symbol}';
+  }
+
+  /// Exact (non plate-snapped) weight — used for world-record figures so the
+  /// official numbers aren't rounded to the nearest plate.
+  String _exactWeight(double kg, WeightUnit unit) {
+    final v = Units.fromKg(kg, unit);
+    final text =
+        v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(1);
     return '$text ${unit.symbol}';
   }
 
@@ -119,7 +162,7 @@ class ResultScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                "You're at the top tier — Elite. Outstanding.",
+                tr(context, 'top_tier'),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -130,7 +173,7 @@ class ResultScreen extends StatelessWidget {
 
     final gap = result.toNextTierKg!;
     final addText = isReps
-        ? '${gap.ceil()} more reps'
+        ? trp(context, 'more_reps', {'n': gap.ceil()})
         : '+${_weight(gap, unit)}';
     return _glassCard(
       child: Column(
@@ -140,7 +183,7 @@ class ResultScreen extends StatelessWidget {
             children: [
               Icon(Icons.trending_up_rounded, color: Color(next.colorValue)),
               const SizedBox(width: 10),
-              Text('Next: ${next.label}',
+              Text(trp(context, 'next_tier', {'tier': tierLabel(context, next)}),
                   style: Theme.of(context).textTheme.titleMedium),
               const Spacer(),
               Text(addText,
@@ -173,13 +216,13 @@ class ResultScreen extends StatelessWidget {
     return ((result.percentile - lo) / (hi - lo)).clamp(0.05, 1.0);
   }
 
-  Widget _tierLadder() {
+  Widget _tierLadder(BuildContext context) {
     return _glassCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Tier ladder',
-              style: TextStyle(
+          Text(tr(context, 'tier_ladder'),
+              style: const TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 13,
                   fontWeight: FontWeight.w600)),
@@ -204,7 +247,7 @@ class ResultScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          tier.label,
+                          tierLabel(context, tier),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 9.5,
@@ -231,42 +274,150 @@ class ResultScreen extends StatelessWidget {
       StrengthTier.ordered.indexOf(tier) <=
       StrengthTier.ordered.indexOf(result.tier);
 
-  Widget _notes() {
+  /// World-record card, shown only for lifts that have a record for [sex].
+  Widget _worldRecordCard(BuildContext context, Sex sex, WeightUnit unit) {
+    final record = worldRecordFor(exercise.id, sex);
+    if (record == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: _glassCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.emoji_events_rounded, color: Color(0xFFFFC93C)),
+                const SizedBox(width: 10),
+                Text(tr(context, 'world_record'),
+                    style: Theme.of(context).textTheme.titleMedium),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              sex.isMale ? tr(context, 'wr_men') : tr(context, 'wr_women'),
+              style: const TextStyle(
+                  color: AppColors.textSecondary, fontSize: 12.5),
+            ),
+            const SizedBox(height: 14),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  _exactWeight(record.weightKg, unit),
+                  style: const TextStyle(
+                      color: Color(0xFFFFC93C),
+                      fontSize: 26,
+                      fontWeight: FontWeight.w800),
+                ),
+                const Spacer(),
+                Flexible(
+                  child: Text(
+                    trp(context, 'wr_held_by',
+                        {'holder': record.holder, 'year': record.year}),
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              tr(context, record.categoryKey),
+              style: const TextStyle(
+                  color: AppColors.textSecondary, fontSize: 11.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Bullet-point tips for getting stronger on this movement.
+  Widget _tipsCard(BuildContext context) {
+    final tips = tipsFor(context, exercise);
+    if (tips.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: _glassCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.tips_and_updates_rounded,
+                    color: AppColors.accent),
+                const SizedBox(width: 10),
+                Text(tr(context, 'tips_title'),
+                    style: Theme.of(context).textTheme.titleMedium),
+              ],
+            ),
+            const SizedBox(height: 12),
+            for (final t in tips)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 6),
+                      child: _Dot(),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(t,
+                          style: const TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 13.5,
+                              height: 1.35)),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _notes(BuildContext context) {
     final notes = <String>[
-      if (!result.oneRmKg.isNull)
-        'Estimated with the ${result.formula.label} formula.',
-      if (result.lowConfidence)
-        'High-rep estimate — treat the 1RM as approximate.',
+      if (!result.oneRmKg.isNull) tr(context, 'note_epley'),
+      if (result.lowConfidence) tr(context, 'note_high_rep'),
       if (result.isEstimate)
-        result.estimateNote ??
-            'Standards are ratio-based estimates, not dataset percentiles.',
+        result.estimateNote ?? tr(context, 'note_estimate'),
     ];
     if (notes.isEmpty) return const SizedBox.shrink();
-    return _glassCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (final n in notes)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 2),
-                    child: Icon(Icons.info_outline_rounded,
-                        size: 15, color: AppColors.textSecondary),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(n,
-                        style: const TextStyle(
-                            color: AppColors.textSecondary, fontSize: 12.5)),
-                  ),
-                ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: _glassCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (final n in notes)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 2),
+                      child: Icon(Icons.info_outline_rounded,
+                          size: 15, color: AppColors.textSecondary),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(n,
+                          style: const TextStyle(
+                              color: AppColors.textSecondary, fontSize: 12.5)),
+                    ),
+                  ],
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -285,6 +436,23 @@ class ResultScreen extends StatelessWidget {
 
 extension on double? {
   bool get isNull => this == null;
+}
+
+/// Small accent bullet used in the tips list.
+class _Dot extends StatelessWidget {
+  const _Dot();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 5,
+      height: 5,
+      decoration: const BoxDecoration(
+        color: AppColors.accent,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
 }
 
 class _StatCard extends StatelessWidget {

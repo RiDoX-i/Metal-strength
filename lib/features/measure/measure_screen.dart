@@ -5,9 +5,14 @@ import 'package:provider/provider.dart';
 import '../../core/data/exercise_repository.dart';
 import '../../core/formulas/one_rep_max.dart';
 import '../../core/formulas/units.dart';
+import '../../core/models/assessment_record.dart';
 import '../../core/models/exercise.dart';
+import '../../core/models/strength_result.dart';
+import '../../core/models/user_profile.dart';
 import '../../core/strength_calculator.dart';
+import '../../l10n/app_strings.dart';
 import '../../state/app_state.dart';
+import '../../state/history_service.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/app_widgets.dart';
 import '../../widgets/exercise_glyph.dart';
@@ -36,7 +41,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
   final _deadlift = TextEditingController();
 
   _MeasureMode _mode = _MeasureMode.single;
-  OneRepMaxFormula _formula = OneRepMaxFormula.epley;
 
   Exercise get exercise => widget.exercise;
 
@@ -78,6 +82,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
         reps: reps,
         repAnchors: ExerciseRepository.repAnchors(exercise.id, profile.sex),
       );
+      _record(result, profile);
       _go(ResultScreen(result: result, exercise: exercise));
       return;
     }
@@ -92,14 +97,26 @@ class _MeasureScreenState extends State<MeasureScreen> {
       return;
     }
 
+    // 1RM is always estimated with Epley — the most widely used real-world
+    // formula — so there is no user-facing formula choice.
     final result = calc.assessWeighted(
       exercise: exercise,
       profile: profile,
       weightKg: Units.toKg(_parse(_weight)!, state.unit),
       reps: int.parse(_reps.text),
-      formula: _formula,
     );
+    _record(result, profile);
     _go(ResultScreen(result: result, exercise: exercise));
+  }
+
+  /// Save this assessment to the user's progress history (single-lift results
+  /// only — the Wilks/DOTS total is a separate metric and isn't trended here).
+  void _record(StrengthResult result, UserProfile profile) {
+    context.read<HistoryService>().add(AssessmentRecord.fromResult(
+          exercise: exercise,
+          result: result,
+          profile: profile,
+        ));
   }
 
   void _go(Widget screen) {
@@ -113,7 +130,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
     return Scaffold(
-      appBar: AppBar(title: const Text('Measure')),
+      appBar: AppBar(title: Text(tr(context, 'measure_title'))),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -135,7 +152,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
               _weightedInputs(state),
             const SizedBox(height: 24),
             PrimaryButton(
-              label: 'Calculate strength',
+              label: tr(context, 'calculate_strength'),
               icon: Icons.bolt_rounded,
               enabled: _canCalculate,
               onPressed: () => _calculate(state),
@@ -158,13 +175,14 @@ class _MeasureScreenState extends State<MeasureScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(exercise.name,
+              Text(exerciseName(context, exercise),
                   style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 4),
               Text(
                 exercise.isBodyweight
-                    ? 'Rated by reps performed'
-                    : '${exercise.equipment.label} · lift ÷ bodyweight',
+                    ? tr(context, 'rated_by_reps')
+                    : '${equipmentLabel(context, exercise.equipment)} · '
+                        '${tr(context, 'lift_over_bw')}',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
@@ -186,17 +204,17 @@ class _MeasureScreenState extends State<MeasureScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                '${p.sex.label}  ·  '
+                '${sexLabel(context, p.sex)}  ·  '
                 '${p.bodyweightInUnit.toStringAsFixed(0)} ${p.unit.symbol}'
-                '${p.age != null ? '  ·  ${p.age} yrs' : ''}',
+                '${p.age != null ? '  ·  ${p.age} ${tr(context, 'years_short')}' : ''}',
                 style: const TextStyle(
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-            const Text('Edit',
-                style: TextStyle(color: AppColors.accent, fontSize: 13)),
+            Text(tr(context, 'edit'),
+                style: const TextStyle(color: AppColors.accent, fontSize: 13)),
             const Icon(Icons.chevron_right_rounded,
                 color: AppColors.textSecondary),
           ],
@@ -209,12 +227,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionLabel('How do you want to measure?'),
+        _sectionLabel(tr(context, 'measure_how')),
         SegmentedSelector<_MeasureMode>(
           options: _MeasureMode.values,
           selected: _mode,
-          labelOf: (m) =>
-              m == _MeasureMode.single ? 'Single lift' : 'Total (Wilks/DOTS)',
+          labelOf: (m) => m == _MeasureMode.single
+              ? tr(context, 'single_lift')
+              : tr(context, 'total_wilks'),
           onChanged: (m) => setState(() => _mode = m),
         ),
       ],
@@ -225,13 +244,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionLabel('Your best set'),
+        _sectionLabel(tr(context, 'your_best_set')),
         Row(
           children: [
             Expanded(
               child: _NumberField(
                 controller: _weight,
-                label: 'Weight (${state.unit.symbol})',
+                label: '${tr(context, 'weight')} (${state.unit.symbol})',
                 hint: '100',
                 decimal: true,
                 onChanged: (_) => setState(() {}),
@@ -241,20 +260,16 @@ class _MeasureScreenState extends State<MeasureScreen> {
             Expanded(
               child: _NumberField(
                 controller: _reps,
-                label: 'Reps',
+                label: tr(context, 'reps'),
                 hint: '5',
                 onChanged: (_) => setState(() {}),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        _sectionLabel('1RM formula'),
-        _formulaPicker(),
         if (int.tryParse(_reps.text) != null &&
             OneRepMax.isLowConfidence(int.parse(_reps.text)))
-          _hint('High reps reduce 1RM accuracy — keep it under '
-              '$kReliableRepCeiling for a reliable estimate.'),
+          _hint(trp(context, 'high_reps_hint', {'n': kReliableRepCeiling})),
       ],
     );
   }
@@ -264,10 +279,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionLabel('Your best single (1RM) on each lift'),
+        _sectionLabel(tr(context, 'best_single_each')),
         _NumberField(
           controller: _squat,
-          label: 'Squat ($u)',
+          label: '${tr(context, 'squat')} ($u)',
           hint: '180',
           decimal: true,
           onChanged: (_) => setState(() {}),
@@ -275,7 +290,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
         const SizedBox(height: 12),
         _NumberField(
           controller: _bench,
-          label: 'Bench ($u)',
+          label: '${tr(context, 'bench')} ($u)',
           hint: '120',
           decimal: true,
           onChanged: (_) => setState(() {}),
@@ -283,7 +298,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
         const SizedBox(height: 12),
         _NumberField(
           controller: _deadlift,
-          label: 'Deadlift ($u)',
+          label: '${tr(context, 'deadlift')} ($u)',
           hint: '220',
           decimal: true,
           onChanged: (_) => setState(() {}),
@@ -296,46 +311,14 @@ class _MeasureScreenState extends State<MeasureScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionLabel('How many reps?'),
+        _sectionLabel(tr(context, 'how_many_reps')),
         _NumberField(
           controller: _reps,
-          label: 'Max reps',
+          label: tr(context, 'max_reps'),
           hint: '12',
           onChanged: (_) => setState(() {}),
         ),
       ],
-    );
-  }
-
-  Widget _formulaPicker() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceAlt,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.stroke),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<OneRepMaxFormula>(
-          value: _formula,
-          isExpanded: true,
-          dropdownColor: AppColors.surfaceAlt,
-          borderRadius: BorderRadius.circular(16),
-          icon: const Icon(Icons.expand_more_rounded,
-              color: AppColors.textSecondary),
-          items: [
-            for (final f in OneRepMaxFormula.values)
-              DropdownMenuItem(
-                value: f,
-                child: Text(
-                  f.label,
-                  style: const TextStyle(color: AppColors.textPrimary),
-                ),
-              ),
-          ],
-          onChanged: (f) => setState(() => _formula = f ?? _formula),
-        ),
-      ),
     );
   }
 
